@@ -1,0 +1,29 @@
+{
+  "shiatsu": {
+    "titulo": "Shiatsu",
+    "subtitulo": "Masaje japonés",
+    "estado_texto": "Agenda abierta",
+    "estado_tipo": "ok",
+    "ubicacion": "Rep. de Cuba 1474 (M° Colón) o Manuel Montt con Fco. Bilbao",
+    "precio": "$160.000",
+    "precio_detalle": "4 sesiones · válido 1 mes"
+  },
+  "medicina_china": {
+    "titulo": "Medicina China",
+    "subtitulo": "Acupuntura · ventosas · moxibustión",
+    "estado_texto": "Agenda abierta",
+    "estado_tipo": "ok",
+    "ubicacion": "Rep. de Cuba 1474 (M° Colón) o Manuel Montt con Fco. Bilbao",
+    "precio": "$140.000",
+    "precio_detalle": "4 sesiones · válido 1 mes"
+  },
+  "membresia": {
+    "titulo": "Membresía online",
+    "subtitulo": "Material complementario",
+    "estado_texto": "Acceso inmediato",
+    "estado_tipo": "ok",
+    "detalle": "Videos, artículos y clases grabadas de qigong, taichi y medicina china",
+    "precio": "$15.000",
+    "precio_detalle": "al mes"
+  }
+}

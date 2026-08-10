@@ -1,0 +1,136 @@
+backend:
+  name: github
+  repo: aileighton/-wuji-rediseno
+  branch: main
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
+
+locale: "es"
+site_url: https://aileighton.github.io/-wuji-rediseno/
+display_url: https://aileighton.github.io/-wuji-rediseno/
+logo_url: ""
+
+media_folder: "content/uploads"
+public_folder: "/content/uploads"
+
+collections:
+  - name: "clases_grupales"
+    label: "🥋 Clases grupales"
+    description: "Precio, horario y disponibilidad de cada clase. Lo que cambies acá se actualiza solo en la página."
+    files:
+      - name: "clases"
+        label: "Clases grupales"
+        file: "content/clases-grupales.json"
+        fields:
+          - label: "Qigong"
+            name: "qigong"
+            widget: "object"
+            summary: "{{fields.titulo}} — {{fields.precio}}"
+            fields: &clase_fields
+              - {label: "Nombre de la clase", name: "titulo", widget: "string"}
+              - {label: "Categoría (texto chico bajo el nombre)", name: "subtitulo", widget: "string"}
+              - label: "¿Hay cupos?"
+                name: "estado_tipo"
+                widget: "select"
+                hint: "Controla el color de la etiqueta"
+                options:
+                  - {label: "🟢 Sí, hay cupos", value: "ok"}
+                  - {label: "🔴 No, sin cupos por ahora", value: "full"}
+              - {label: "Texto de la etiqueta", name: "estado_texto", widget: "string", hint: "Ej: \"Cupos disponibles\" o \"Sin horarios disponibles\""}
+              - {label: "Horario", name: "horario", widget: "string", hint: "Ej: Lun 18:30–20:00 (presencial)"}
+              - {label: "Ubicación", name: "ubicacion", widget: "string"}
+              - {label: "Precio", name: "precio", widget: "string", hint: "Ej: $35.000 — si no hay precio, escribí un guion: —"}
+              - {label: "Detalle del precio", name: "precio_detalle", widget: "string", hint: "Ej: 4 sesiones · válido 1 mes"}
+          - label: "Baguazhang"
+            name: "baguazhang"
+            widget: "object"
+            summary: "{{fields.titulo}} — {{fields.precio}}"
+            fields: *clase_fields
+          - label: "Taichi"
+            name: "taichi"
+            widget: "object"
+            summary: "{{fields.titulo}} — {{fields.precio}}"
+            fields: *clase_fields
+
+  - name: "terapias_individuales"
+    label: "🌿 Terapias individuales"
+    description: "Precio, disponibilidad y ubicación de cada terapia."
+    files:
+      - name: "terapias"
+        label: "Terapias individuales"
+        file: "content/terapias-individuales.json"
+        fields:
+          - label: "Shiatsu"
+            name: "shiatsu"
+            widget: "object"
+            summary: "{{fields.titulo}} — {{fields.precio}}"
+            fields: &terapia_fields
+              - {label: "Nombre de la terapia", name: "titulo", widget: "string"}
+              - {label: "Categoría (texto chico bajo el nombre)", name: "subtitulo", widget: "string"}
+              - label: "¿Agenda abierta?"
+                name: "estado_tipo"
+                widget: "select"
+                hint: "Controla el color de la etiqueta"
+                options:
+                  - {label: "🟢 Sí, se puede agendar", value: "ok"}
+                  - {label: "🔴 No, por ahora no", value: "full"}
+              - {label: "Texto de la etiqueta", name: "estado_texto", widget: "string", hint: "Ej: \"Agenda abierta\""}
+              - {label: "Ubicación", name: "ubicacion", widget: "string"}
+              - {label: "Precio", name: "precio", widget: "string", hint: "Ej: $160.000"}
+              - {label: "Detalle del precio", name: "precio_detalle", widget: "string", hint: "Ej: 4 sesiones · válido 1 mes"}
+          - label: "Medicina China"
+            name: "medicina_china"
+            widget: "object"
+            summary: "{{fields.titulo}} — {{fields.precio}}"
+            fields: *terapia_fields
+          - label: "Membresía online"
+            name: "membresia"
+            widget: "object"
+            summary: "{{fields.titulo}} — {{fields.precio}}"
+            fields:
+              - {label: "Nombre", name: "titulo", widget: "string"}
+              - {label: "Categoría (texto chico bajo el nombre)", name: "subtitulo", widget: "string"}
+              - label: "¿Disponible?"
+                name: "estado_tipo"
+                widget: "select"
+                options:
+                  - {label: "🟢 Sí", value: "ok"}
+                  - {label: "🔴 No", value: "full"}
+              - {label: "Texto de la etiqueta", name: "estado_texto", widget: "string", hint: "Ej: \"Acceso inmediato\""}
+              - {label: "Qué incluye", name: "detalle", widget: "string", hint: "Ej: Videos, artículos y clases grabadas..."}
+              - {label: "Precio", name: "precio", widget: "string"}
+              - {label: "Detalle del precio", name: "precio_detalle", widget: "string", hint: "Ej: al mes"}
+
+  - name: "taller"
+    label: "🌸 Taller de verano"
+    description: "El taller o seminario destacado en la página de Inicio y en Talleres."
+    files:
+      - name: "taller"
+        label: "Taller de verano"
+        file: "content/taller.json"
+        fields:
+          - name: "taller"
+            widget: "object"
+            fields:
+              - {label: "Etiqueta pequeña arriba del título", name: "etiqueta", widget: "string", hint: "Ej: Taller de verano · cupos limitados"}
+              - {label: "Nombre del taller", name: "nombre", widget: "string"}
+              - {label: "Descripción", name: "descripcion", widget: "text"}
+              - {label: "Ubicación", name: "ubicacion", widget: "string"}
+              - {label: "Precio", name: "precio", widget: "string"}
+              - {label: "Detalle del precio / fechas", name: "precio_detalle", widget: "string", hint: "Ej: preventa hasta el 2 de enero · $50.000 después"}
+
+  - name: "contacto"
+    label: "📞 Datos de contacto"
+    description: "Ojo: el número de WhatsApp que pongas acá es el que se usa en TODOS los botones de agendar del sitio."
+    files:
+      - name: "contacto"
+        label: "Datos de contacto"
+        file: "content/contacto.json"
+        fields:
+          - name: "contacto"
+            widget: "object"
+            fields:
+              - {label: "Email", name: "email", widget: "string"}
+              - {label: "WhatsApp (como se muestra en pantalla)", name: "whatsapp_texto", widget: "string", hint: "Ej: +56 9 9125 5052"}
+              - {label: "WhatsApp (solo números, para los botones)", name: "whatsapp_numero", widget: "string", hint: "Con código de país, sin espacios ni +. Ej: 56991255052"}
+              - {label: "Direcciones", name: "ubicaciones", widget: "text", hint: "Una dirección por línea"}
