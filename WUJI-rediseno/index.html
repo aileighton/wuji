@@ -381,6 +381,30 @@
   .plan-extra h4{font-size:1.05rem;font-weight:500;}
   .plan-extra p{color:var(--fg-suave);font-size:.86rem;margin-top:4px;}
 
+  /* ---------- material view ---------- */
+  .gate-wrap{max-width:420px;margin:0 auto;}
+  .gate-card{
+    background:var(--bg-panel);border:1px solid var(--borde);border-radius:20px;
+    padding:32px 28px;box-shadow:var(--sombra);display:flex;flex-direction:column;gap:16px;
+  }
+  .gate-error{display:none;color:var(--accent-ink);font-size:.84rem;font-weight:600;}
+  .gate-error.show{display:block;}
+  .gate-foot{font-size:.86rem;color:var(--fg-suave);text-align:center;}
+  .material-welcome{max-width:62ch;margin:0 auto 22px;text-align:center;color:var(--fg-suave);}
+  .material-actions{display:flex;justify-content:center;margin:-6px 0 30px;}
+  .material-group + .material-group{margin-top:38px;}
+  .material-group h3{font-size:1.02rem;font-weight:500;margin-bottom:16px;display:flex;align-items:center;gap:.6em;}
+  .material-group h3 svg{width:16px;height:16px;color:var(--accent-ink);}
+  .material-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;}
+  .material-item{
+    background:var(--bg-panel);border:1px solid var(--borde);border-radius:20px;
+    padding:22px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--sombra);
+  }
+  .material-item h4{font-size:1rem;font-weight:500;}
+  .material-item p{font-size:.85rem;color:var(--fg-suave);}
+  .material-item .btn{margin-top:auto;width:100%;justify-content:center;}
+  .material-empty{color:var(--fg-suave);font-size:.92rem;text-align:center;padding:20px 0;}
+
   /* ---------- conocenos view ---------- */
   .bio-grid{display:grid;grid-template-columns:.75fr 1.25fr;gap:clamp(28px,5vw,56px);align-items:start;}
   .timeline{list-style:none;margin:26px 0 0;padding:0;display:flex;flex-direction:column;gap:22px;}
@@ -755,6 +779,7 @@
               <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> <span data-key="membresia.detalle">Videos, artículos y clases grabadas de qigong, taichi y medicina china</span></div>
             </div>
             <div class="svc-price"><strong data-key="membresia.precio">$15.000</strong><span data-key="membresia.precio_detalle">al mes</span></div>
+            <a class="btn btn-accent" href="#material" data-nav="material">Ya soy socia · Ingresar</a>
             <a class="btn btn-ghost wa-link" href="#" data-msg="Hola! Quiero info sobre la membresía online 🙏" target="_blank" rel="noopener">Consultar</a>
           </div>
         </div>
@@ -915,6 +940,37 @@
     </div>
   </section>
 
+  <section class="view" id="v-material" data-view="material">
+    <div class="wrap" style="padding-top:48px">
+      <div class="section-head" style="max-width:100%;text-align:center">
+        <span class="eyebrow" style="justify-content:center;width:100%">Material complementario</span>
+        <h2>Contenido exclusivo para socias</h2>
+        <p style="max-width:62ch;margin-left:auto;margin-right:auto">Clases grabadas y documentos disponibles para quienes tienen una membresía activa. Tere te da la clave cuando te sumás.</p>
+      </div>
+
+      <div class="gate-wrap" id="materialGate">
+        <div class="gate-card">
+          <div class="field">
+            <label for="materialPass">Clave de acceso</label>
+            <input type="password" id="materialPass" placeholder="Ingresá tu clave" autocomplete="off">
+          </div>
+          <span class="gate-error" id="materialError">Esa clave no es correcta. Revisála o escribinos por WhatsApp.</span>
+          <button class="btn btn-accent" id="materialSubmit" style="width:100%;justify-content:center">Ingresar</button>
+          <p class="gate-foot" id="materialSinClave">¿Aún no tenés clave? Escribinos por WhatsApp y te contamos cómo sumarte.</p>
+          <a class="btn btn-ghost wa-link" href="#" data-msg="Hola! Quiero info sobre la membresía online para acceder al material complementario 🙏" target="_blank" rel="noopener" style="width:100%;justify-content:center">Escribinos por WhatsApp</a>
+        </div>
+      </div>
+
+      <div id="materialLibrary" style="display:none">
+        <p class="material-welcome" id="materialWelcome">Contenido exclusivo para quienes tienen una membresía activa.</p>
+        <div class="material-actions">
+          <button class="btn btn-ghost" id="materialLock" type="button">Cerrar sesión</button>
+        </div>
+        <div id="materialGroups"></div>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <footer class="site">
@@ -935,6 +991,7 @@
           <a href="#talleres" data-nav="talleres">Talleres</a>
           <a href="#conocenos" data-nav="conocenos">Conócenos</a>
           <a href="#contacto" data-nav="contacto">Contacto</a>
+          <a href="#material" data-nav="material">Material complementario</a>
         </div>
         <div class="social-row" style="margin-top:18px">
           <a href="https://wa.me/56991255052" target="_blank" rel="noopener" aria-label="WhatsApp">
@@ -1078,26 +1135,71 @@ window.WUJI = { waNumber: "56991255052" };
 })();
 
 (function(){
-  var FILES = [
-    "content/clases-grupales.json",
-    "content/terapias-individuales.json",
-    "content/taller.json",
-    "content/contacto.json"
-  ];
-  Promise.all(FILES.map(function(f){
-    return fetch(f, {cache:"no-store"}).then(function(r){ return r.ok ? r.json() : {}; }).catch(function(){ return {}; });
-  })).then(function(parts){
-    applyContent(Object.assign({}, parts[0], parts[1], parts[2], parts[3]));
-  });
+  var SHEET_ID = "1ye4ppTFsCcSsWP9gcIVcS6shv6_mQVvxqah1wrPbv9o";
+  var CSV_URL = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/export?format=csv&gid=0";
 
-  function get(obj, path){
-    return path.split(".").reduce(function(o,k){ return (o && o[k] !== undefined) ? o[k] : undefined; }, obj);
+  fetch(CSV_URL, {cache:"no-store"})
+    .then(function(r){ if(!r.ok) throw new Error("no se pudo leer la planilla"); return r.text(); })
+    .then(function(csv){ applyContent(csvToDict(parseCsv(csv))); })
+    .catch(function(err){ console.warn("WUJI: no se pudo cargar la planilla de contenido, se mantiene el contenido por defecto.", err); });
+
+  // Parser CSV simple (soporta comillas y comas dentro de campos)
+  function parseCsv(text){
+    var rows = [], row = [], field = "", inQuotes = false;
+    for (var i = 0; i < text.length; i++) {
+      var c = text[i], next = text[i+1];
+      if (inQuotes) {
+        if (c === '"' && next === '"') { field += '"'; i++; }
+        else if (c === '"') { inQuotes = false; }
+        else { field += c; }
+      } else {
+        if (c === '"') inQuotes = true;
+        else if (c === ',') { row.push(field); field = ""; }
+        else if (c === '\n' || c === '\r') {
+          if (c === '\r' && next === '\n') i++;
+          row.push(field); field = "";
+          if (row.length > 1 || row[0] !== "") rows.push(row);
+          row = [];
+        } else field += c;
+      }
+    }
+    if (field !== "" || row.length) { row.push(field); rows.push(row); }
+    return rows;
+  }
+
+  // Fila: [Sección, Campo, Valor, clave] -> diccionario plano {clave: valor}
+  function csvToDict(rows){
+    var dict = {};
+    rows.slice(1).forEach(function(r){
+      var clave = (r[3] || "").trim();
+      if (!clave) return;
+      dict[clave] = (r[2] !== undefined) ? r[2] : "";
+    });
+    return dict;
+  }
+
+  function esSi(v){
+    v = String(v || "").trim().toLowerCase();
+    return v === "si" || v === "sí" || v === "s" || v === "yes" || v === "true";
+  }
+
+  function formatearPrecio(v){
+    var digits = String(v || "").replace(/[^0-9]/g, "");
+    if (!digits) return "—";
+    return "$" + digits.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
 
   function applyContent(data){
+    // Combina las dos direcciones sueltas en el mismo campo multilínea que ya usa el sitio
+    if (data["contacto.ubicacion1"] || data["contacto.ubicacion2"]) {
+      data["contacto.ubicaciones"] = [data["contacto.ubicacion1"], data["contacto.ubicacion2"]].filter(Boolean).join("\n");
+    }
+
     document.querySelectorAll("[data-key]").forEach(function(el){
-      var val = get(data, el.getAttribute("data-key"));
+      var key = el.getAttribute("data-key");
+      var val = data[key];
       if (val === undefined || val === null || val === "") return;
+      if (key.endsWith(".precio") && !key.endsWith(".precio_detalle")) val = formatearPrecio(val);
       if (el.hasAttribute("data-multiline")) {
         el.innerHTML = String(val).split("\n").map(escapeHtml).join("<br>");
       } else {
@@ -1107,18 +1209,16 @@ window.WUJI = { waNumber: "56991255052" };
 
     document.querySelectorAll("[data-status]").forEach(function(el){
       var key = el.getAttribute("data-status");
-      var tipo = get(data, key + ".estado_tipo");
-      if (tipo === "ok" || tipo === "full") {
-        el.classList.remove("ok", "full");
-        el.classList.add(tipo);
-      }
+      if (data[key + ".hay_cupos"] === undefined) return;
+      var tipo = esSi(data[key + ".hay_cupos"]) ? "ok" : "full";
+      el.classList.remove("ok", "full");
+      el.classList.add(tipo);
     });
 
     var emailLink = document.getElementById("emailLink");
-    var email = get(data, "contacto.email");
-    if (emailLink && email) emailLink.href = "mailto:" + email;
+    if (emailLink && data["contacto.email"]) emailLink.href = "mailto:" + data["contacto.email"];
 
-    var numero = get(data, "contacto.whatsapp_numero");
+    var numero = data["contacto.whatsapp_numero"];
     if (numero) {
       window.WUJI.waNumber = String(numero).replace(/[^0-9]/g, "");
       window.WUJI.refreshWaLinks();
@@ -1127,6 +1227,177 @@ window.WUJI = { waNumber: "56991255052" };
 
   function escapeHtml(s){
     return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+})();
+
+(function(){
+  var SHEET_ID = "1ye4ppTFsCcSsWP9gcIVcS6shv6_mQVvxqah1wrPbv9o";
+  var MATERIAL_URL = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:csv&sheet=Material";
+  var STORAGE_KEY = "wuji_material_clave";
+  var CONFIG_LABELS = {
+    "Clave de acceso": "clave",
+    "Mensaje de bienvenida": "bienvenida",
+    "Mensaje sin clave": "sin_clave"
+  };
+
+  var config = { clave: "", bienvenida: "", sin_clave: "" };
+  var items = [];
+
+  var gate = document.getElementById("materialGate");
+  var library = document.getElementById("materialLibrary");
+  if (!gate || !library) return; // sección no presente en esta página
+
+  var passInput = document.getElementById("materialPass");
+  var errorEl = document.getElementById("materialError");
+  var submitBtn = document.getElementById("materialSubmit");
+  var lockBtn = document.getElementById("materialLock");
+  var welcomeEl = document.getElementById("materialWelcome");
+  var sinClaveEl = document.getElementById("materialSinClave");
+  var groupsEl = document.getElementById("materialGroups");
+
+  fetch(MATERIAL_URL, {cache:"no-store"})
+    .then(function(r){ if(!r.ok) throw new Error("no se pudo leer Material"); return r.text(); })
+    .then(function(csv){
+      var parsed = parseMaterial(csv);
+      items = parsed.items;
+      if (parsed.config.clave) config.clave = parsed.config.clave;
+      if (parsed.config.bienvenida) { config.bienvenida = parsed.config.bienvenida; welcomeEl.textContent = config.bienvenida; }
+      if (parsed.config.sin_clave) { config.sin_clave = parsed.config.sin_clave; sinClaveEl.textContent = config.sin_clave; }
+
+      var saved = localStorage.getItem(STORAGE_KEY);
+      if (saved && config.clave && saved === config.clave) unlock();
+    })
+    .catch(function(err){ console.warn("WUJI: no se pudo cargar Material complementario.", err); });
+
+  function parseMaterial(text){
+    var rows = parseCsvLocal(text);
+    var result = { items: [], config: {} };
+    for (var i = 1; i < rows.length; i++) { // fila 0 = encabezados
+      var row = rows[i];
+      if (!row || !row.length) continue;
+      var c0 = (row[0] || "").trim();
+      if (!c0) continue;
+      if (CONFIG_LABELS[c0]) {
+        result.config[CONFIG_LABELS[c0]] = (row[1] || "").trim();
+        continue;
+      }
+      var titulo = (row[1] || "").trim();
+      var link = (row[3] || "").trim();
+      var activo = (row[4] || "").trim();
+      if (!titulo || !link || !esSiLocal(activo)) continue;
+      result.items.push({ tipo: c0, titulo: titulo, descripcion: (row[2] || "").trim(), link: link });
+    }
+    return result;
+  }
+
+  function renderLibrary(){
+    groupsEl.innerHTML = "";
+    if (!items.length) {
+      var p = document.createElement("p");
+      p.className = "material-empty";
+      p.textContent = "Todavía no hay contenido cargado — volvé a revisar pronto.";
+      groupsEl.appendChild(p);
+      return;
+    }
+    var order = [], grouped = {};
+    items.forEach(function(it){
+      if (!grouped[it.tipo]) { grouped[it.tipo] = []; order.push(it.tipo); }
+      grouped[it.tipo].push(it);
+    });
+    order.forEach(function(tipo){
+      var section = document.createElement("div");
+      section.className = "material-group";
+      var h3 = document.createElement("h3");
+      h3.textContent = tipo;
+      section.appendChild(h3);
+      var grid = document.createElement("div");
+      grid.className = "material-grid";
+      grouped[tipo].forEach(function(it){
+        var card = document.createElement("div");
+        card.className = "material-item";
+        var h4 = document.createElement("h4");
+        h4.textContent = it.titulo;
+        card.appendChild(h4);
+        if (it.descripcion) {
+          var desc = document.createElement("p");
+          desc.textContent = it.descripcion;
+          card.appendChild(desc);
+        }
+        var a = document.createElement("a");
+        a.className = "btn btn-ghost";
+        a.href = it.link;
+        a.target = "_blank";
+        a.rel = "noopener";
+        a.textContent = "Ver";
+        card.appendChild(a);
+        grid.appendChild(card);
+      });
+      section.appendChild(grid);
+      groupsEl.appendChild(section);
+    });
+  }
+
+  function unlock(){
+    renderLibrary();
+    gate.style.display = "none";
+    library.style.display = "";
+  }
+
+  function lock(){
+    localStorage.removeItem(STORAGE_KEY);
+    library.style.display = "none";
+    gate.style.display = "";
+    passInput.value = "";
+    errorEl.classList.remove("show");
+  }
+
+  function tryUnlock(){
+    var val = (passInput.value || "").trim();
+    if (!config.clave) {
+      errorEl.textContent = "No se pudo verificar la clave en este momento. Probá de nuevo en unos segundos.";
+      errorEl.classList.add("show");
+      return;
+    }
+    if (val && val === config.clave) {
+      localStorage.setItem(STORAGE_KEY, val);
+      errorEl.classList.remove("show");
+      unlock();
+    } else {
+      errorEl.textContent = "Esa clave no es correcta. Revisála o escribinos por WhatsApp.";
+      errorEl.classList.add("show");
+    }
+  }
+
+  submitBtn.addEventListener("click", tryUnlock);
+  passInput.addEventListener("keydown", function(e){ if (e.key === "Enter") tryUnlock(); });
+  lockBtn.addEventListener("click", lock);
+
+  function parseCsvLocal(text){
+    var rows = [], row = [], field = "", inQuotes = false;
+    for (var i = 0; i < text.length; i++) {
+      var c = text[i], next = text[i+1];
+      if (inQuotes) {
+        if (c === '"' && next === '"') { field += '"'; i++; }
+        else if (c === '"') { inQuotes = false; }
+        else { field += c; }
+      } else {
+        if (c === '"') inQuotes = true;
+        else if (c === ',') { row.push(field); field = ""; }
+        else if (c === '\n' || c === '\r') {
+          if (c === '\r' && next === '\n') i++;
+          row.push(field); field = "";
+          if (row.length > 1 || row[0] !== "") rows.push(row);
+          row = [];
+        } else field += c;
+      }
+    }
+    if (field !== "" || row.length) { row.push(field); rows.push(row); }
+    return rows;
+  }
+
+  function esSiLocal(v){
+    v = String(v || "").trim().toLowerCase();
+    return v === "si" || v === "sí" || v === "s" || v === "yes" || v === "true";
   }
 })();
 </script>
