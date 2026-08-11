@@ -169,6 +169,8 @@
   :root[data-theme="light"] .logo-light{display:block;}
   :root[data-theme="light"] .logo-dark{display:none;}
   nav.primary{display:flex;align-items:center;gap:clamp(14px,2.2vw,30px);}
+  nav.primary .nav-links{display:contents;}
+  nav.primary .nav-drawer-foot{display:none;}
   nav.primary a{
     font-size:.86rem;text-decoration:none;color:var(--fg-suave);
     position:relative;padding:6px 2px;white-space:nowrap;
@@ -200,8 +202,11 @@
   .btn-ghost:hover{border-color:var(--accent);color:var(--accent-ink);}
   .btn svg{width:16px;height:16px;flex:none;}
   .btn-short{display:none;}
-  .nav-toggle{display:none;background:none;border:0;color:var(--fg);cursor:pointer;padding:6px;}
+  .nav-toggle{display:none;background:none;border:0;color:var(--fg);cursor:pointer;padding:6px;z-index:46;position:relative;}
   .nav-toggle svg{width:24px;height:24px;}
+  .nav-toggle .icon-close{display:none;}
+  .nav-toggle.is-open .icon-menu{display:none;}
+  .nav-toggle.is-open .icon-close{display:block;}
 
   /* ---------- views ---------- */
   main{display:block;}
@@ -218,7 +223,7 @@
   .hero{
     position:relative;overflow:hidden;
     padding-top:clamp(64px,10vw,120px);
-    padding-bottom:clamp(56px,9vw,100px);
+    padding-bottom:clamp(64px,10vw,100px);
   }
   .hero-grid{
     display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,5vw,64px);
@@ -277,7 +282,10 @@
   }
   .parallax-mark img{width:44px;height:auto;filter:drop-shadow(0 4px 12px rgba(0,0,0,.5));}
   .parallax-mark span{font-family:var(--display);letter-spacing:.5em;font-size:.9rem;font-weight:500;padding-left:.5em;}
-  @media (max-width:880px){.parallax-band{height:52vh;min-height:280px;}}
+  @media (max-width:880px){
+    .parallax-band{height:52vh;min-height:280px;}
+    .hero{padding-bottom:80px;}
+  }
 
   /* ---------- section headers ---------- */
   .section-head{max-width:62ch;margin-bottom:clamp(28px,4vw,48px);}
@@ -497,17 +505,26 @@
   @media (max-width:1024px){
     .svc-grid{grid-template-columns:repeat(2,1fr);}
     .wrap{padding:0 clamp(20px,4vw,44px);}
+    .brand span{display:none;}
+    .brand img{width:34px;}
+    .header-actions .btn-accent{display:none;}
+    .nav-toggle{display:flex;order:1;}
     nav.primary{
-      position:fixed;inset:64px 0 0 0;background:var(--bg);
-      flex-direction:column;align-items:flex-start;padding:26px clamp(20px,5vw,56px);
-      gap:22px;transform:translateX(100%);transition:transform .25s ease;
+      position:fixed;top:64px;left:0;right:0;bottom:0;
+      height:calc(100dvh - 64px);
+      background:var(--bg);z-index:45;
+      display:flex;flex-direction:column;align-items:stretch;justify-content:space-between;
+      padding:36px clamp(20px,6vw,56px) 28px;
+      transform:translateX(100%);transition:transform .3s ease;
       border-top:1px solid var(--borde);
       overflow-y:auto;
     }
     nav.primary.open{transform:translateX(0);}
-    nav.primary a{font-size:1.05rem;}
-    nav.primary a.nav-material svg{width:15px;height:15px;}
-    .nav-toggle{display:flex;}
+    nav.primary .nav-links{display:flex;flex-direction:column;align-items:center;gap:26px;margin:auto 0;}
+    nav.primary a{font-size:1.35rem;text-align:center;}
+    nav.primary a.nav-material svg{width:17px;height:17px;}
+    nav.primary .nav-drawer-foot{display:block;padding-top:24px;border-top:1px solid var(--borde);}
+    nav.primary .nav-drawer-foot .btn{width:100%;justify-content:center;}
   }
 
   /* ---------- mobile (880px and down) ---------- */
@@ -543,18 +560,27 @@
       <span>WUJI</span>
     </a>
     <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <svg class="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
     <nav class="primary" id="primaryNav">
-      <a href="#inicio" data-nav="inicio">Inicio</a>
-      <a href="#servicios" data-nav="servicios">Servicios</a>
-      <a href="#talleres" data-nav="talleres">Talleres</a>
-      <a href="#conocenos" data-nav="conocenos">Conócenos</a>
-      <a href="#contacto" data-nav="contacto">Contacto</a>
-      <a href="#material" data-nav="material" class="nav-material">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
-        Material
-      </a>
+      <div class="nav-links">
+        <a href="#inicio" data-nav="inicio">Inicio</a>
+        <a href="#servicios" data-nav="servicios">Servicios</a>
+        <a href="#talleres" data-nav="talleres">Talleres</a>
+        <a href="#conocenos" data-nav="conocenos">Conócenos</a>
+        <a href="#contacto" data-nav="contacto">Contacto</a>
+        <a href="#material" data-nav="material" class="nav-material">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+          Material
+        </a>
+      </div>
+      <div class="nav-drawer-foot">
+        <a class="btn btn-accent wa-link" href="#" data-msg="Hola! Vengo desde la página de WUJI y quiero agendar una sesión 🙏" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.4 2 11.9c0 2 .5 3.8 1.5 5.4L2 22l4.8-1.4c1.5.8 3.2 1.3 5.2 1.3 5.5 0 10-4.4 10-9.9S17.5 2 12 2zm0 18c-1.7 0-3.3-.5-4.6-1.3l-.3-.2-3 .9.9-2.9-.2-.3C3.9 14.8 3.4 13.4 3.4 12 3.4 7.2 7.2 3.4 12 3.4S20.6 7.2 20.6 12 16.8 20 12 20zm5-6.4c-.3-.1-1.6-.8-1.8-.9-.2-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.1.2-.3.2-.6.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.5.1-.2 0-.4 0-.5C10.5 9 10 7.7 9.8 7.2c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1 0 1.2.9 2.4 1 2.6.1.2 1.8 2.8 4.4 3.8.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.6-.6 1.8-1.3.2-.6.2-1.1.2-1.2-.1-.2-.3-.2-.6-.4z"/></svg>
+          Agendar por WhatsApp
+        </a>
+      </div>
     </nav>
     <div class="header-actions">
       <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema" title="Cambiar tema">
@@ -843,7 +869,7 @@
               <div class="txt"><h5>Entrenamiento Corporal Consciente</h5><p>Método propio que fusiona danza, yoga, pilates y técnicas somáticas.</p></div>
             </li>
             <li>
-              <span class="yr">10 años</span>
+              <span class="yr">2016</span>
               <div class="txt"><h5>Terapeuta de Shiatsu</h5><p>Formación en masaje japonés, ligada a la filosofía oriental y su enfoque holístico del cuerpo.</p></div>
             </li>
             <li>
@@ -1064,7 +1090,9 @@ window.WUJI = { waNumber: "56991255052" };
     window.scrollTo({top:0, behavior:"instant" in window ? "instant" : "auto"});
     var nav = document.getElementById("primaryNav");
     nav.classList.remove("open");
-    document.getElementById("navToggle").setAttribute("aria-expanded","false");
+    var toggle = document.getElementById("navToggle");
+    toggle.classList.remove("is-open");
+    toggle.setAttribute("aria-expanded","false");
   }
 
   function routeFromHash(){
@@ -1097,6 +1125,7 @@ window.WUJI = { waNumber: "56991255052" };
   var primaryNav = document.getElementById("primaryNav");
   navToggle.addEventListener("click", function(){
     var open = primaryNav.classList.toggle("open");
+    navToggle.classList.toggle("is-open", open);
     navToggle.setAttribute("aria-expanded", open ? "true" : "false");
   });
 
